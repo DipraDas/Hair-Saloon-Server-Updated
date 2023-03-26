@@ -38,6 +38,7 @@ async function run() {
         const blogsCollection = client.db('hairSalon').collection('blogs');
         const commentsCollection = client.db('hairSalon').collection('comment');
         const productsCollection = client.db('hairSalon').collection('products');
+        const ordersCollection = client.db('hairSalon').collection('orders');
 
         // VERIFY ADMIN
         const verifyAdmin = async (req, res, next) => {
@@ -74,6 +75,12 @@ async function run() {
             const comments = req.body;
             console.log(comments);
             const result = await commentsCollection.insertOne(comments);
+            res.send(result);
+        })
+        app.post('/orderPlace', async (req, res) => {
+            const orderPlace = req.body;
+            console.log(orderPlace);
+            const result = await ordersCollection.insertOne(orderPlace);
             res.send(result);
         })
 
@@ -178,6 +185,13 @@ async function run() {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) };
             const result = await commentsCollection.deleteOne(filter);
+            res.send(result);
+        });
+
+        
+        app.delete("/product/:id", async (req, res) => {
+            const id = req.params.id;
+            const result = await productsCollection.deleteOne({ _id: new ObjectId(id) });
             res.send(result);
         });
 
