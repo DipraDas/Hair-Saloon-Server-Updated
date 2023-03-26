@@ -77,7 +77,7 @@ async function run() {
             const result = await commentsCollection.insertOne(comments);
             res.send(result);
         })
-        app.post('/orderPlace', async (req, res) => {
+        app.post('/orderPlace',verifyJWT, async (req, res) => {
             const orderPlace = req.body;
             console.log(orderPlace);
             const result = await ordersCollection.insertOne(orderPlace);
